@@ -53,11 +53,16 @@ const DATA_G = fs.__d({ v: 'data g' })
 const DATA_H = fs.__d({ v: 'data h' })
 const DATA_I = fs.__d({ v: 'data i' })
 const DATA_J = fs.__d({ v: 'data j' })
-const DATA_K = fs.__d({ v: 'data k' })
 
 beforeEach(() => {
   subject.cache.clear()
   jest.clearAllMocks()
+})
+
+describe('no reader', () => {
+  test('fails with 0 reader', () => {
+    expect(() => subject('/some/path', [])).toThrow(RangeError)
+  })
 })
 
 describe('with one reader', () => {

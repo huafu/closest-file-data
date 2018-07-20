@@ -28,6 +28,9 @@ function closestFileData(
 ): Readonly<IClosestDataResult> | void {
   const paths = []
   const readers = Array.isArray(oneOrMoreReader) ? oneOrMoreReader : [oneOrMoreReader]
+  if (readers.length < 1) {
+    throw new RangeError(`At least one reader must be given.`)
+  }
   // cache key is based on the ordered list of basenames
   const cacheKey = readers.map(r => r.basename).join('::')
   if (!(cacheKey in caches)) {

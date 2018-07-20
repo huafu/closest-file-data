@@ -19,10 +19,11 @@
   },
   "scripts": {
     "lint": "tslint --project .",
-    "test": "jest",
+    "test:unit": "jest",
     "test:dist": "jest -c jest.config.dist.js",
     "test:e2e": "jest -c jest.config.e2e.js",
     "build": "tsc -p .",
-    "prepublish": "npm run lint && npm run test && npm run build && npm run test:dist && npm run test:e2e"
+    "test": "npm run test:unit && npm run build && npm run test:dist && npm run test:e2e",
+    "prepublish": "npm run lint && npm run test"
   }
 }
