@@ -62,8 +62,8 @@ typings/
 
 src
 e2e
-dist/**/*.spec.js
-dist/__*__/*
+dist/**/*.spec.*
+dist/__*__
 jest.*
 tsconfig.json
 tslint.json
