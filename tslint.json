@@ -1,0 +1,21 @@
+{
+    "defaultSeverity": "error",
+    "extends": [
+        "tslint:recommended"
+    ],
+    "jsRules": {
+        "quotemark": [true, "single", "avoid-escape"],
+        "semicolon": [true, "never"],
+        "arrow-parens": false,
+        "max-line-length": [true, 120],
+        "object-literal-key-quotes": false
+    },
+    "rules": {
+        "quotemark": [true, "single", "avoid-escape"],
+        "semicolon": [true, "never"],
+        "arrow-parens": false,
+        "max-line-length": [true, 120],
+        "object-literal-key-quotes": false
+    },
+    "rulesDirectory": []
+}

@@ -1,0 +1,7 @@
+{
+  "name": "dummy-package",
+  "description": "this should never be reached since the .babelrc has precedence",
+  "babel": {
+    "filename": "/project/package.json"
+  }
+}

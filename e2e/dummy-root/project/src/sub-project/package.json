@@ -1,0 +1,6 @@
+{
+  "name": "sub-project",
+  "babel": {
+    "filename": "/project/src/sub-project/package.json"
+  }
+}
