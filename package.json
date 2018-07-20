@@ -7,6 +7,13 @@
   "repository": "https://github.com/huafu/closest-file-data.git",
   "author": "Huafu Gandon <huafu.gandon@gmail.com>",
   "license": "MIT",
+  "keywords": [
+    "relative",
+    "file",
+    "resource",
+    "config",
+    "search"
+  ],
   "devDependencies": {
     "@types/flat": "^0.0.28",
     "@types/jest": "^23.3.0",
