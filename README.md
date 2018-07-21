@@ -126,3 +126,8 @@ See also the list of [contributors](https://github.com/your/project/contributors
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+
+## Support on Beerpay
+Hey dude! Help me out for a couple of :beers:!
+
+[![Beerpay](https://beerpay.io/huafu/closest-file-data/badge.svg?style=beer-square)](https://beerpay.io/huafu/closest-file-data)  [![Beerpay](https://beerpay.io/huafu/closest-file-data/make-wish.svg?style=flat-square)](https://beerpay.io/huafu/closest-file-data?focus=wish)
