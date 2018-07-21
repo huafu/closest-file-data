@@ -1,5 +1,9 @@
-import * as fs from './__mocks__/fs'
-import * as path from './__mocks__/path'
+import * as mockFs from './__mocks__/fs'
+import * as mockPath from './__mocks__/path'
+// for some reason auto-mocking does not work
+jest.mock('fs', () => mockFs)
+jest.mock('path', () => mockPath)
+
 import subject, { IClosestDataResult, IDataReader } from './index'
 
 /*
@@ -12,10 +16,6 @@ import subject, { IClosestDataResult, IDataReader } from './index'
  *
  * We have a makeTest helper so that they could be more readable
  */
-
-// for some reason auto-mocking does not work
-jest.mock('fs', () => require('./__mocks__/fs'))
-jest.mock('path', () => require('./__mocks__/path'))
 
 const callAndExpect = (from: any, readers: IDataReader | IDataReader[], expected: IClosestDataResult | null) => {
   const result = subject(from, readers)
@@ -43,16 +43,16 @@ const CONF_XML = 'config.yml'
 const CONF_PKG = 'package.json'
 
 // to make strict equality (testing cache)
-const DATA_A = fs.__d({ v: 'data a' })
-const DATA_B = fs.__d({ v: 'data b' })
-const DATA_C = fs.__d({ v: 'data c' })
-const DATA_D = fs.__d({ v: 'data d' })
-const DATA_E = fs.__d({ v: 'data e' })
-const DATA_F = fs.__d({ v: 'data f' })
-const DATA_G = fs.__d({ v: 'data g' })
-const DATA_H = fs.__d({ v: 'data h' })
-const DATA_I = fs.__d({ v: 'data i' })
-const DATA_J = fs.__d({ v: 'data j' })
+const DATA_A = mockFs.__d({ v: 'data a' })
+const DATA_B = mockFs.__d({ v: 'data b' })
+const DATA_C = mockFs.__d({ v: 'data c' })
+const DATA_D = mockFs.__d({ v: 'data d' })
+const DATA_E = mockFs.__d({ v: 'data e' })
+const DATA_F = mockFs.__d({ v: 'data f' })
+const DATA_G = mockFs.__d({ v: 'data g' })
+const DATA_H = mockFs.__d({ v: 'data h' })
+const DATA_I = mockFs.__d({ v: 'data i' })
+const DATA_J = mockFs.__d({ v: 'data j' })
 
 beforeEach(() => {
   subject.cache.clear()
@@ -66,9 +66,9 @@ describe('no reader', () => {
 })
 
 describe('with one reader', () => {
-  const readers: IDataReader = { basename: CONF_YML, read: f => fs.__files[f] }
+  const readers: IDataReader = { basename: CONF_YML, read: f => mockFs.__files[f] }
   beforeAll(() => {
-    fs.__setupTree({
+    mockFs.__setupTree({
       '/project/path': {
         [CONF_YML]: DATA_A,
         child1: {
@@ -95,12 +95,12 @@ describe('with one reader', () => {
 
 describe('with many readers', () => {
   const readers: IDataReader[] = [
-    { basename: CONF_PKG, read: f => fs.__files[f] },
-    { basename: CONF_JSON, read: f => fs.__files[f] },
-    { basename: CONF_XML, read: f => fs.__files[f] },
+    { basename: CONF_PKG, read: f => mockFs.__files[f] },
+    { basename: CONF_JSON, read: f => mockFs.__files[f] },
+    { basename: CONF_XML, read: f => mockFs.__files[f] },
   ]
   beforeAll(() => {
-    fs.__setupTree({
+    mockFs.__setupTree({
       '/a/path': {
         a: {
           [CONF_XML]: DATA_H,
@@ -146,23 +146,23 @@ describe('with readers based on content', () => {
   const readers: IDataReader = {
     basename: CONF_JSON,
     read(f) {
-      const data = fs.__files[f]
+      const data = mockFs.__files[f]
       if (data.val) return data.val // tslint:disable-line
     },
   }
   beforeAll(() => {
-    fs.__setupTree({
+    mockFs.__setupTree({
       '/project/path': {
-        [CONF_JSON]: fs.__d({ dummy: 'foo' }),
+        [CONF_JSON]: mockFs.__d({ dummy: 'foo' }),
         child1: {
-          [CONF_JSON]: fs.__d({ val: 'bar' }),
+          [CONF_JSON]: mockFs.__d({ val: 'bar' }),
           sub: {
-            [CONF_JSON]: fs.__d({ val: 'yay!' }),
+            [CONF_JSON]: mockFs.__d({ val: 'yay!' }),
           },
         },
         child2: {
           'file2.ts': 'bar',
-          [CONF_JSON]: fs.__d({ val: 'hit!' }),
+          [CONF_JSON]: mockFs.__d({ val: 'hit!' }),
         },
       },
     })
@@ -180,9 +180,9 @@ describe('with readers based on content', () => {
 
 describe('caches data', () => {
   const readers: IDataReader[] = [
-    { basename: CONF_PKG, read: jest.fn(f => fs.__files[f]) },
-    { basename: CONF_JSON, read: jest.fn(f => fs.__files[f]) },
-    { basename: CONF_XML, read: jest.fn(f => fs.__files[f]) },
+    { basename: CONF_PKG, read: jest.fn(f => mockFs.__files[f]) },
+    { basename: CONF_JSON, read: jest.fn(f => mockFs.__files[f]) },
+    { basename: CONF_XML, read: jest.fn(f => mockFs.__files[f]) },
   ]
   const readersIndex = {
     [CONF_PKG]: readers[0].read,
@@ -190,7 +190,7 @@ describe('caches data', () => {
     [CONF_XML]: readers[0].read,
   }
   beforeAll(() => {
-    fs.__setupTree({
+    mockFs.__setupTree({
       '/a/path': {
         [CONF_PKG]: DATA_A,
         a: {
@@ -211,14 +211,14 @@ describe('caches data', () => {
 
     callAndExpect('/a/path/file1.me', readers, result)
     expect(readersIndex[CONF_PKG]).toHaveBeenCalledTimes(1)
-    expect(path.dirname).toHaveBeenCalledTimes(1)
-    expect(path.join).toHaveBeenCalled()
+    expect(mockPath.dirname).toHaveBeenCalledTimes(1)
+    expect(mockPath.join).toHaveBeenCalled()
     jest.clearAllMocks()
 
     callAndExpect('/a/path/file1.me', readers, result)
     expect(readersIndex[CONF_PKG]).not.toHaveBeenCalled()
-    expect(path.dirname).not.toHaveBeenCalled()
-    expect(path.join).not.toHaveBeenCalled()
+    expect(mockPath.dirname).not.toHaveBeenCalled()
+    expect(mockPath.join).not.toHaveBeenCalled()
   })
 
   test('parents', () => {
@@ -226,27 +226,27 @@ describe('caches data', () => {
 
     callAndExpect('/a/path/deep/level/file.ts', readers, result)
     expect(readersIndex[CONF_PKG]).toHaveBeenCalledTimes(1)
-    expect(fs.existsSync).toHaveBeenCalled()
-    expect(path.dirname).toHaveBeenCalled()
-    expect(path.join).toHaveBeenCalled()
+    expect(mockFs.existsSync).toHaveBeenCalled()
+    expect(mockPath.dirname).toHaveBeenCalled()
+    expect(mockPath.join).toHaveBeenCalled()
     jest.clearAllMocks()
 
     callAndExpect('/a/path/deep/level', readers, result)
     expect(readersIndex[CONF_PKG]).not.toHaveBeenCalled()
-    expect(fs.existsSync).not.toHaveBeenCalled()
-    expect(path.dirname).not.toHaveBeenCalled()
-    expect(path.join).not.toHaveBeenCalled()
+    expect(mockFs.existsSync).not.toHaveBeenCalled()
+    expect(mockPath.dirname).not.toHaveBeenCalled()
+    expect(mockPath.join).not.toHaveBeenCalled()
 
     callAndExpect('/a/path/deep', readers, result)
     expect(readersIndex[CONF_PKG]).not.toHaveBeenCalled()
-    expect(fs.existsSync).not.toHaveBeenCalled()
-    expect(path.dirname).not.toHaveBeenCalled()
-    expect(path.join).not.toHaveBeenCalled()
+    expect(mockFs.existsSync).not.toHaveBeenCalled()
+    expect(mockPath.dirname).not.toHaveBeenCalled()
+    expect(mockPath.join).not.toHaveBeenCalled()
 
     callAndExpect('/a/path', readers, result)
     expect(readersIndex[CONF_PKG]).not.toHaveBeenCalled()
-    expect(fs.existsSync).not.toHaveBeenCalled()
-    expect(path.dirname).not.toHaveBeenCalled()
-    expect(path.join).not.toHaveBeenCalled()
+    expect(mockFs.existsSync).not.toHaveBeenCalled()
+    expect(mockPath.dirname).not.toHaveBeenCalled()
+    expect(mockPath.join).not.toHaveBeenCalled()
   })
 })
