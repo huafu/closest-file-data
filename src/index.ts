@@ -15,17 +15,17 @@ export interface IDataReader<T = any> {
 
 export interface IClosestDataResult {
   // full path to the found file
-  path: string
+  readonly path: string
   // config returned by the reader (or cached)
-  data: any
+  readonly data: any
 }
 
-let caches: { [key: string]: { [path: string]: Readonly<IClosestDataResult> | void } } = Object.create(null)
+let caches: { [key: string]: { [path: string]: IClosestDataResult | void } } = Object.create(null)
 
 function closestFileData(
   relPath: string,
   oneOrMoreReader: IDataReader | IDataReader[],
-): Readonly<IClosestDataResult> | void {
+): IClosestDataResult | void {
   const paths = []
   const readers = Array.isArray(oneOrMoreReader) ? oneOrMoreReader : [oneOrMoreReader]
   if (readers.length < 1) {
@@ -37,7 +37,7 @@ function closestFileData(
     caches[cacheKey] = Object.create(null)
   }
   const cache = caches[cacheKey]
-  let result: Readonly<IClosestDataResult> | void
+  let result: IClosestDataResult | void
   let directory = relPath
 
   do {
