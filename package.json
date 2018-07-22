@@ -1,6 +1,6 @@
 {
   "name": "closest-file-data",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Allow to find and retrieve some data (such as config file) related to a given path (with cache)",
   "main": "./dist/index.js",
   "typings": "./dist/index.d.ts",
