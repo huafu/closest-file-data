@@ -1,4 +1,4 @@
-<img style="float: right; width: 48px;" src="icon.png"></img>
+<img align="right" src="icon.png"></img>
 
 # Closest File Data [![Build Status](https://travis-ci.org/huafu/closest-file-data.svg?branch=master)](https://travis-ci.org/huafu/closest-file-data) [![Beerpay](https://beerpay.io/huafu/closest-file-data/badge.svg?style=beer-square)](https://beerpay.io/huafu/closest-file-data)  [![Beerpay](https://beerpay.io/huafu/closest-file-data/make-wish.svg?style=flat-square)](https://beerpay.io/huafu/closest-file-data?focus=wish)
 
