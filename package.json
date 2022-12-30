@@ -18,7 +18,7 @@
     "@types/flat": "^0.0.28",
     "@types/jest": "^23.3.0",
     "@types/node": "^10.5.2",
-    "flat": "^4.1.0",
+    "flat": "^5.0.1",
     "jest": "<23",
     "ts-jest": "<23",
     "tslint": "^5.11.0",
